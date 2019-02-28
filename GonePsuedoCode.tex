@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+\renewcommand{\algorithmicrequire}{\textbf{Input: }}
+\renewcommand{\algorithmicensure}{\textbf{Output: }}
+
+\begin{document}
+
+
+\begin{algorithm}
+\caption{Solve Current Board: Belongs to Solver Class}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{solveCurrentBoard}{}\
+\State \algorithmicrequire{A board representation that contains a 2 dimensional array of pebble representations.}\
+\State \algorithmicensure{Number of iterations that pebble representations are replaced and whether or not there are any black pebble representations remaining.}
+\State $\textit{Q} \gets \emptyset$ (Queue)
+\State $\textit{blackPebbles} \gets 0$
+\For{each $\textit{pebble}$ on board}
+\If{$\textit{pebble}$ is white} {add $\textit{pebble}$ to $\textit{Q}$}
+\Else{$\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
+\EndIf
+\EndFor
+\State T $\gets$ {result of preforming the flipPebbles procedure on $\textit{Q}$ and $\textit{blackPebbles}$.}
+\State {anyBlackRemaing $\gets$ True if number of black remaining in T $\textgreater$ 0, False otherwise}
+\State {R $\gets$ number of iterations in T and anyBlackRemaining}
+\State \Return R
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{Flip Pebbles: Belongs to Solver Class}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{flipPebbles}{}\
+\State \algorithmicrequire{Queue of pebbles to flip, $\textit{Q}$,  and number of remaining black pebbles, $\textit{blackPebbles}$.}\
+\State \algorithmicensure{Number of iterations that pebble representations are replaced and the remaining number of black pebbles.}
+\If{$\textit{Q}$ is empty}
+\State \Return {0 (number of iterations) and remaining number of black pebbles}
+\EndIf
+\State $\textit{R} \gets \emptyset$ (Queue)
+\State $\textit{remaining} \gets blackPebbles$
+\For{each pebble $\textit{p}$ in $\textit{Q}$}
+\State {Change color of $\textit{p}$'s black neighbors to white and add them to $\textit{R}$.}
+\State {Decrement $\textit{remaining}$ by 1 for each black neighbor flipped}
+\EndFor
+\State {T $\gets$ result of performing the flipPebbles procedure on $\textit{R}$ and $\textit{remaining}$.}
+\State {Add 1 to number of number of iterations in T}
+\State \Return {T}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\end{document} 
