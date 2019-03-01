@@ -57,5 +57,23 @@
 \end{algorithmic}
 \end{algorithm}
 
+\begin{algorithm}
+\caption{Solve Current Board: Belongs to Solver Class}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{solveCurrentBoard}{}\
+\State \algorithmicrequire{A board representation that contains a 2 dimensional array of pebble representations.}\
+\State \algorithmicensure{Number of iterations that pebble representations are replaced and whether or not there are any black pebble representations remaining.}
+\State $\textit{Q} \gets \emptyset$ (Queue)
+\State $\textit{blackPebbles} \gets 0$
+\For{each $\textit{pebble}$ on board}
+\If{$\textit{pebble}$ is white} {add $\textit{pebble}$ to $\textit{Q}$}
+\Else{ $\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
+\EndIf
+\EndFor
+\While{Q is not empty}
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \end{document} 

@@ -11,13 +11,13 @@
 \renewcommand{\algorithmicensure}{\textbf{Output: }}
 
 \begin{document}
-
+\begin{flushleft}
 Solver Class:
+\end{flushleft}
 \begin{itemize}
 	\item Instance Variables: 
 	\begin{itemize}
   		\item Board
-  		\item Another entry in the list
 	\end{itemize}
 	\item Methods:
 	\begin{itemize}
@@ -29,7 +29,6 @@ Board Class:
 	\item Instance Variables: 
 	\begin{itemize}
   		\item 2D-Array of Pebbles
-  		\item Another entry in the list
 	\end{itemize}
 	\item Methods:
 	\begin{itemize}
@@ -68,7 +67,7 @@ Pebble Class:
 \Else \State {$\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
 \EndIf
 \EndFor
-\State {$\textit{currentPebble} \gets 0$}
+\State {$\textit{currentPebble} \gets \emptyset$}
 \While {$\textit{Q}$ is not empty}
 \State $\textit{currentPebble} \gets$ pebble deqeued from Q
 \State {Change color of $\textit{currentPebble}$'s black neighbors to white and enqueue them to $\textit{Q}$ with iteration level of one greater than currentPebble's iteration level.}
