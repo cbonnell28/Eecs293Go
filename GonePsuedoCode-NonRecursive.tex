@@ -67,9 +67,10 @@ Pebble Class:
 \Else \State {$\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
 \EndIf
 \EndFor
-\State {$\textit{currentPebble} \gets \emptyset$}
+\State {$\textit{currentIteration} \gets 0$}
 \While {$\textit{Q}$ is not empty}
 \State $\textit{currentPebble} \gets$ pebble deqeued from Q
+\State {$\textit{currentIteration} \gets \textit{currentPebble}$'s $\textit{iterationLevel}$}
 \State {Change color of $\textit{currentPebble}$'s black neighbors to white and enqueue them to $\textit{Q}$ with iteration level of one greater than currentPebble's iteration level.}
 \State {Decrement $\textit{blackPebbles}$ by 1 for each black neighbor flipped}
 \EndWhile
@@ -77,5 +78,13 @@ Pebble Class:
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+\pagebreak
+Runntime:
+\begin{itemize}
+\item{First loop iterates through each pebble at most once, this O(n)}
+\item{Second loop goes through entirety of queue, which holds at most all the pieces on the board since pieces cannot be added to the queue more than once, this is O(n)}
+\item{O(n) + O(n) = O(n), where n is the number of pieces on the board}
+\end{itemize}
 
 \end{document} 
