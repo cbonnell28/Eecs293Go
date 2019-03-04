@@ -11,51 +11,49 @@
 \renewcommand{\algorithmicensure}{\textbf{Output: }}
 
 \begin{document}
-
-
-\begin{algorithm}
-\caption{Solve Current Board: Belongs to Solver Class}\label{euclid}
-\begin{algorithmic}[1]
-\Procedure{solveCurrentBoard}{}\
-\State \algorithmicrequire{A board representation that contains a 2 dimensional array of pebble representations.}\
-\State \algorithmicensure{Number of iterations that pebble representations are replaced and whether or not there are any black pebble representations remaining.}
-\State $\textit{Q} \gets \emptyset$ (Queue)
-\State $\textit{blackPebbles} \gets 0$
-\For{each $\textit{pebble}$ on board}
-\If{$\textit{pebble}$ is white} {add $\textit{pebble}$ to $\textit{Q}$}
-\Else{$\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
-\EndIf
-\EndFor
-\State T $\gets$ {result of preforming the flipPebbles procedure on $\textit{Q}$ and $\textit{blackPebbles}$.}
-\State {anyBlackRemaing $\gets$ True if number of black remaining in T $\textgreater$ 0, False otherwise}
-\State {R $\gets$ number of iterations in T and anyBlackRemaining}
-\State \Return R
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-
-\begin{algorithm}
-\caption{Flip Pebbles: Belongs to Solver Class}\label{euclid}
-\begin{algorithmic}[1]
-\Procedure{flipPebbles}{}\
-\State \algorithmicrequire{Queue of pebbles to flip, $\textit{Q}$,  and number of remaining black pebbles, $\textit{blackPebbles}$.}\
-\State \algorithmicensure{Number of iterations that pebble representations are replaced and the remaining number of black pebbles.}
-\If{$\textit{Q}$ is empty}
-\State \Return {0 (number of iterations) and remaining number of black pebbles}
-\EndIf
-\State $\textit{R} \gets \emptyset$ (Queue)
-\State $\textit{remaining} \gets blackPebbles$
-\For{each pebble $\textit{p}$ in $\textit{Q}$}
-\State {Change color of $\textit{p}$'s black neighbors to white and add them to $\textit{R}$.}
-\State {Decrement $\textit{remaining}$ by 1 for each black neighbor flipped}
-\EndFor
-\State {T $\gets$ result of performing the flipPebbles procedure on $\textit{R}$ and $\textit{remaining}$.}
-\State {Add 1 to number of number of iterations in T}
-\State \Return {T}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+\title{EECS 293 - Programming Assignment 6}
+\author{Christian Bonnell and Jason Shin}
+\maketitle
+\begin{flushleft}
+Solver Class:
+\end{flushleft}
+\begin{itemize}
+	\item Instance Variables: 
+	\begin{itemize}
+  		\item Board
+	\end{itemize}
+	\item Methods:
+	\begin{itemize}
+		\item solveCurrentBoard
+	\end{itemize}
+\end{itemize}
+Board Class:
+\begin{itemize}
+	\item Instance Variables: 
+	\begin{itemize}
+  		\item 2D-Array of Pebbles
+	\end{itemize}
+	\item Methods:
+	\begin{itemize}
+		\item addPebble - add pebble to specified location on board
+	\end{itemize}
+\end{itemize}
+Pebble Class:
+\begin{itemize}
+	\item Instance Variables: 
+	\begin{itemize}
+  		\item Color
+  		\item Iteration Value
+  		\item Left Pebble
+  		\item Right Pebble
+  		\item Up Pebble
+  		\item Down Pebble
+	\end{itemize}
+	\item Methods:
+	\begin{itemize}
+		\item flipColor - if black, set Color to white, else set Color to black
+	\end{itemize}
+\end{itemize}
 
 \begin{algorithm}
 \caption{Solve Current Board: Belongs to Solver Class}\label{euclid}
@@ -66,14 +64,54 @@
 \State $\textit{Q} \gets \emptyset$ (Queue)
 \State $\textit{blackPebbles} \gets 0$
 \For{each $\textit{pebble}$ on board}
-\If{$\textit{pebble}$ is white} {add $\textit{pebble}$ to $\textit{Q}$}
-\Else{ $\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
+\If{$\textit{pebble}$ is white} 
+\State {add $\textit{pebble}$ to $\textit{Q}$}
+\State {set $\textit{pebble}$ iteration level to $\textit{0}$}
+\Else \State {$\textit{blackPebbles}$ $\gets$ $\textit{blackPebbles}$ + 1}
 \EndIf
 \EndFor
-\While{Q is not empty}
+\State {$\textit{currentIteration} \gets 0$}
+\While {$\textit{Q}$ is not empty}
+\State $\textit{currentPebble} \gets$ pebble deqeued from Q
+\State {$\textit{currentIteration} \gets \textit{currentPebble}$'s $\textit{iterationLevel}$}
+\State {Change color of $\textit{currentPebble}$'s black neighbors to white and enqueue them to $\textit{Q}$ with iteration level of one greater than currentPebble's iteration level.}
+\State {Decrement $\textit{blackPebbles}$ by 1 for each black neighbor flipped}
 \EndWhile
+\State {\Return $\textit{currentIteration}$ and True if blackPebbles $\textgreater$ 0, False otherwise}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
+\pagebreak
+\begin{flushleft}
+Runtime:
+\end{flushleft}
+\begin{itemize}
+\item{First loop iterates through each pebble at most once, this O(n)}
+\item{Second loop goes through entirety of queue, which holds at most all the pieces on the board since pieces cannot be added to the queue more than once, this is O(n)}
+\item{O(n) + O(n) = O(n), where n is the number of pieces on the board}
+\end{itemize}
+Correctness:
+\begin{itemize}
+\item{The correctness of the algorithm can be justified by checking every type of board configuration}
+	\begin{itemize}
+		\item {Board with no pebbles - Since there are no pebbles, no pebbles will be added to Q, so blackPebbles will stay at 0 and iteration will stay at 0. Therefore, the algorithm will return 0 and False.}
+		\item {Board with only white pebbles - Since there are only white pebbles, every pebble will be added to Q with iteration level 0, and blackPebbles will stay at 0. currentIteration will never be set to anything other than 0, since there are no black pebbles. Therefore, the algorithm will return 0 and False.}
+		\item {Board with only black pebbles - Since there are only black pebbles, no pebbles will be added to Q and blackPebbles will equal the number of pebbles. Therefore, the algorithm will return 0 and True.}
+		\item {Board with black pebbles not touching any white pebbles - Since there are no black pebbles touching white pebbles, the only pebbles that would be added to Q would be white pebbles with iteration level 0 have no neighboring black pebbles. currentIteratioin will stay at 0 and blackPebbles will be greater than 0. Therefore, the algorithm will return 0 and True.}
+		\item {Board with black pebbles touching white pebbles}
+		\begin{itemize}
+			\item {Case 1: No islands of solely back pebbles - All of the white pebbles will be added to Q and blackPebbles will start at the number of black pebbles in the beginning. Since each black pebble does not exist in an island it will eventually be added to the queue. Because of this each one will be flipped and the blackPebbles total will be reduced to 0. This will result in the game board being returned with the accurate amount of iterations and False.}
+
+			\item {Case 2: Exists island(s) of solely of black pebble - Identical to case 1, but because there exists these isolated black pebbles, then blackPebbles will always be greater than 0, since this island of pebbles will never be added to Q, so they can't be flipped. Therefore the algorithm will return the appropriate iteration level and True.}
+
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+Class Abstraction Explanations
+\begin{itemize}
+\item {Class Pebbles: The pebbles class is an abstraction that represents the physical game pieces used in the game of Gone. Each piece must have its color and the ability to be flipped to the opposite color if the correct circumstances are met. For our purposes it also includes references to its neighboring pebbles.}
+\item {Class Board: The board class is an abstraction that represents the physical game board used in Gone. It simply contains a 2-dimensional array thats size is specified by the user. We will be storing Pebbles on the board.}
+\item {Class Solver: The solver class represents the results of a single turn in Gone after all the pieces have been set on the board and the first player begins to replace black pieces with white pieces according to the rules of Gone.}
+\end{itemize}
 \end{document} 
